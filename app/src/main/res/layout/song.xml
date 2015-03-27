@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+    <ImageView
+        android:id="@+id/song_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:src="@mipmap/ic_launcher"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/song_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="I will always love you"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/primary_text_default_material_light"/>
+        <TextView
+            android:id="@+id/song_artist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Celine Dion"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/secondary_text_default_material_light"/>
+    </LinearLayout>
+</LinearLayout>

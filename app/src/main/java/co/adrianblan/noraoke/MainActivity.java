@@ -1,15 +1,19 @@
 package co.adrianblan.noraoke;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+
+import com.astuetz.PagerSlidingTabStrip;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -19,10 +23,25 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
+
+            /*
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
+            */
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Initialize the ViewPager and set an adapter
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        // Bind the tabs to the ViewPager
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setShouldExpand(true);
+        tabs.setViewPager(pager);
     }
 
 
@@ -59,8 +78,42 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_song_library, container, false);
             return rootView;
+        }
+    }
+
+    public class PagerAdapter extends FragmentPagerAdapter {
+
+        private final String[] TITLES = {"NOW PLAYING", "LIBRARY", "GROUPS"};
+
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
+        }
+
+        @Override
+        public int getCount() {
+            return TITLES.length;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            if(position == 0){
+                return SongNowPlayingFragment.newInstance();
+            } else if (position == 1){
+                return SongLibraryFragment.newInstance();
+            } else if(position == 2){
+                return GroupFragment.newInstance();
+            }
+
+            System.err.println("Invalid tab fragment!");
+            return new Fragment();
         }
     }
 }
