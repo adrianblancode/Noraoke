@@ -1,7 +1,11 @@
 package co.adrianblan.noraoke;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -12,11 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+
+import java.util.ArrayList;
+
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private final String[] TITLES = {"Now playing", "Songs", "Groups"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
 
             /*
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new MainFragment())
                     .commit();
             */
         }
@@ -36,12 +49,39 @@ public class MainActivity extends ActionBarActivity {
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), getBaseContext()));
 
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
+
+        //Whenever the user changes tab, we want the title to change too
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setTitle(TITLES[position]);
+            }
+
+        });
+
+        //We want to have the library as default view
+        pager.setCurrentItem(1);
+        setTitle(TITLES[1]);
+
     }
 
 
@@ -70,25 +110,45 @@ public class MainActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class MainFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public MainFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_song_library, container, false);
-            return rootView;
+            View view = inflater.inflate(R.layout.fragment_song_library, container, false);
+
+            /*
+            final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+            Fragment parentFragment = getParentFragment();
+            ViewGroup viewGroup = (ViewGroup) parentFragment.getView();
+            if (viewGroup != null) {
+                scrollView.setTouchInterceptionViewGroup((ViewGroup) viewGroup.findViewById(R.id.container));
+                if (parentFragment instanceof ObservableScrollViewCallbacks) {
+                    scrollView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentFragment);
+                }
+            }*/
+
+            return view;
         }
     }
 
-    public class PagerAdapter extends FragmentPagerAdapter {
+    public class PagerAdapter extends FragmentPagerAdapter
+            implements PagerSlidingTabStrip.CustomTabProvider {
 
-        private final String[] TITLES = {"NOW PLAYING", "LIBRARY", "GROUPS"};
+        private ArrayList<Integer> tab_icon = new ArrayList<Integer>();
 
-        public PagerAdapter(FragmentManager fm) {
+        Context myContext;
+
+        public PagerAdapter(FragmentManager fm, Context context) {
             super(fm);
+
+            myContext = context;
+            tab_icon.add(context.getResources().getIdentifier("ic_play_arrow_white_36dp", "drawable", context.getPackageName()));
+            tab_icon.add(context.getResources().getIdentifier("ic_list_white_36dp", "drawable", context.getPackageName()));
+            tab_icon.add(context.getResources().getIdentifier("ic_group_white_36dp", "drawable", context.getPackageName()));
         }
 
         @Override
@@ -114,6 +174,26 @@ public class MainActivity extends ActionBarActivity {
 
             System.err.println("Invalid tab fragment!");
             return new Fragment();
+        }
+
+        @Override
+        public View getCustomTabView(ViewGroup viewGroup, int position) {
+
+            LinearLayout imageView = (LinearLayout) LayoutInflater.from(myContext)
+                    .inflate(R.layout.tab_layout, null, false);
+
+            ImageView tabImage = (ImageView) imageView.findViewById(R.id.tabImage);
+            tabImage.setImageResource(tab_icon.get(position));
+
+            /*
+            Picasso.with(mContext)
+                    .load(ICONS[position])
+                    .fit()
+                    .centerInside()
+                    .into(tabImage);
+            */
+
+            return imageView;
         }
     }
 }

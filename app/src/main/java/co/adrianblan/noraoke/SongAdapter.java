@@ -20,10 +20,11 @@ public class SongAdapter extends BaseAdapter {
 
     private Activity myContext;
 
-    public SongAdapter(Context context) {
+    public SongAdapter(Context context, int numSongs) {
         //super(context, textViewResourceId);
         myContext = (Activity) context;
 
+        songs.add(new SongItem("I want it that way", "Backstreet Boys", "backstreetboys"));
         songs.add(new SongItem("Baby", "Justin Bieber", "bieber"));
         songs.add(new SongItem("I will always love you", "Celine Dion", "dion"));
         songs.add(new SongItem("Bohemian Rhapsody", "Queen", "queen"));
@@ -32,6 +33,18 @@ public class SongAdapter extends BaseAdapter {
         songs.add(new SongItem("Baby Got Back", "Sir Mix-A-Lot", "sirmixalot"));
         songs.add(new SongItem("Don't Stop Believing", "Journey", "journey"));
         songs.add(new SongItem("Wannabe", "Spice Girls", "spicegirls"));
+
+        if(numSongs < 0){
+            return;
+        }
+
+        while(numSongs < songs.size()){
+            songs.remove(songs.size() - 1);
+        }
+    }
+
+    public SongAdapter(Context context) {
+        this(context, 999);
     }
 
     public int getCount() {

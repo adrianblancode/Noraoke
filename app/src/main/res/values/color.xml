@@ -7,4 +7,5 @@
     <item name="colorAccent" type="color">#FF4081</item>
     <item name="colorAccentDark" type="color">#C2185B</item>
 
+    <item name="white" type="color">#FFFFFF</item>
 </resources>

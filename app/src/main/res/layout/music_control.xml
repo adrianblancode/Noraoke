@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/music_control_song"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:padding="0dp"
+            android:src="@drawable/backstreetboys"/>
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="@dimen/music_control_icon_size"
+            android:layout_height="@dimen/music_control_icon_size"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:src="@drawable/ic_skip_previous_black_24dp"/>
+
+        <Button
+            android:id="@+id/music_control_play"
+            android:layout_width="@dimen/music_control_icon_size"
+            android:layout_height="@dimen/music_control_icon_size"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="3dp"
+            android:paddingBottom="0dp"
+            android:drawableBottom="@drawable/ic_play_arrow_black_24dp"
+            android:background="@null"
+            android:clickable="true"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/music_control_icon_size"
+            android:layout_height="@dimen/music_control_icon_size"
+            android:layout_gravity="center_vertical"
+
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:src="@drawable/ic_skip_next_black_24dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:paddingRight="5dp">
+
+        <Button
+            android:id="@+id/music_control_playlist"
+            android:layout_width="@dimen/music_control_icon_size"
+            android:layout_height="@dimen/music_control_icon_size"
+            android:layout_gravity="center_vertical"
+            android:drawableRight="@drawable/ic_queue_music_black_24dp"
+            android:background="@null"
+            android:clickable="true"/>
+    </LinearLayout>
+
+</RelativeLayout>

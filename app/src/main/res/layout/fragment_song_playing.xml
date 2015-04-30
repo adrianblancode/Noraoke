@@ -7,12 +7,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="72dp">
 
-    <ListView android:id="@+id/now_playing_song_list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-    />
+    <include android:id="@+id/myid1" layout="@layout/list_header"/>
 
     </LinearLayout>
 
@@ -21,10 +19,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="88dp"
         android:src="@mipmap/ic_mic_white_24dp"
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentDark"
         />
+
+    <ListView android:id="@+id/now_playing_song_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingBottom="72dp"
+        android:background="@color/background_material_light"
+        android:visibility="gone"
+    />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <include android:id="@+id/music_control" layout="@layout/music_control"/>
+    </LinearLayout>
 
 </FrameLayout>
