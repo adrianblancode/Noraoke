@@ -20,6 +20,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,15 @@ import android.widget.RelativeLayout;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import org.java_websocket.WebSocket;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 public class SongNowPlayingFragment extends Fragment {
 
@@ -38,6 +47,7 @@ public class SongNowPlayingFragment extends Fragment {
     private View rootView;
     FloatingActionButton fab;
     static MediaPlayer mPlayer = null;
+    WebSocketClient mWebSocketClient = null;
 
     public static SongNowPlayingFragment newInstance() {
         SongNowPlayingFragment f = new SongNowPlayingFragment();
@@ -69,6 +79,27 @@ public class SongNowPlayingFragment extends Fragment {
             mPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.iwantitthatway);
         }
 
+        //Connect to the websocket if we don't have it
+        if(mWebSocketClient == null){
+            connectWebSocket();
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayer.seekTo(0);
+            }
+        };
+
+        //Pressing the previous song button just starts it at the beginning
+        final Button prev = (Button) rootView.findViewById(R.id.music_control_prev);
+        prev.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skip_previous_black_24dp, 0);
+        prev.setOnClickListener(listener);
+
+        final Button next = (Button) rootView.findViewById(R.id.music_control_next);
+        next.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skip_next_black_24dp, 0);
+        next.setOnClickListener(listener);
+
         //Get music control play button
         final Button play = (Button) rootView.findViewById(R.id.music_control_play);
 
@@ -87,9 +118,20 @@ public class SongNowPlayingFragment extends Fragment {
 
                     mPlayer.start();
                     play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pause_black_24dp, 0);
+
+                    //Send the time in milliseconds
+                    Date date = new Date();
+
+                    if(mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
+                        mWebSocketClient.send(date.getTime() + " - " + mPlayer.getCurrentPosition());
+                    }
                 } else {
                     mPlayer.pause();
                     play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_play_arrow_black_24dp, 0);
+
+                    if(mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
+                        mWebSocketClient.send("STOP");
+                    }
                 }
             }
         });
@@ -113,7 +155,81 @@ public class SongNowPlayingFragment extends Fragment {
             }
         });
 
+        rootView.findViewById(R.id.now_playing_song_list).setVisibility(View.GONE);
+
         ViewCompat.setElevation(rootView.findViewById(R.id.music_control), 50);
         return rootView;
+    }
+
+    private void connectWebSocket() {
+        URI uri;
+        try {
+            uri = new URI("ws://128.199.134.30:8000/");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println("Opening socket");
+
+        mWebSocketClient = new WebSocketClient(uri) {
+            @Override
+            public void onOpen(ServerHandshake serverHandshake) {
+                Log.i("Websocket", "Opened");
+                mWebSocketClient.send("HELLO");
+            }
+
+            @Override
+            public void onMessage(String s) {
+                final String message = s;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //DO SHIT
+
+                        System.out.println(message);
+
+                        if(message.contains("HELLO") || message.contains("connected")){
+                            return;
+                        }
+
+                        //If the others pause, we pause too
+                        if(message.contains("STOP")){
+                            mPlayer.pause();
+                            return;
+                        }
+
+                        //Otherwise we need to seek to their position
+
+                        //Get the time in milliseconds
+                        Date date = new Date();
+
+                        String[] result = message.split("\\s-\\s");
+
+                        if(result.length != 3){
+                            return;
+                        }
+
+                        int timeshift = (int)(date.getTime() - Long.parseLong(result[1]));
+                        int seekTo = Integer.parseInt(result[2]) + timeshift;
+
+                        if (seekTo <= mPlayer.getDuration()) {
+                            mPlayer.seekTo(seekTo);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onClose(int i, String s, boolean b) {
+                Log.i("Websocket", "Closed " + s);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.i("Websocket", "Error " + e.getMessage());
+            }
+        };
+        mWebSocketClient.connect();
     }
 }
