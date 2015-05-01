@@ -48,6 +48,7 @@ public class SongNowPlayingFragment extends Fragment {
     FloatingActionButton fab;
     static MediaPlayer mPlayer = null;
     WebSocketClient mWebSocketClient = null;
+    Button play = null;
 
     public static SongNowPlayingFragment newInstance() {
         SongNowPlayingFragment f = new SongNowPlayingFragment();
@@ -93,21 +94,21 @@ public class SongNowPlayingFragment extends Fragment {
 
         //Pressing the previous song button just starts it at the beginning
         final Button prev = (Button) rootView.findViewById(R.id.music_control_prev);
-        prev.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skip_previous_black_24dp, 0);
+        prev.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_skip_previous_black_24dp);
         prev.setOnClickListener(listener);
 
         final Button next = (Button) rootView.findViewById(R.id.music_control_next);
-        next.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skip_next_black_24dp, 0);
+        next.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_skip_next_black_24dp);
         next.setOnClickListener(listener);
 
         //Get music control play button
-        final Button play = (Button) rootView.findViewById(R.id.music_control_play);
+        play = (Button) rootView.findViewById(R.id.music_control_play);
 
         //Set the play button to its initial state
         if(mPlayer.isPlaying()){
-            play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pause_black_24dp, 0);
+            play.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_pause_black_24dp);
         } else {
-            play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_play_arrow_black_24dp, 0);
+            play.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_play_arrow_black_24dp);
         }
 
         //Play and pause the song, also change the icons
@@ -116,22 +117,21 @@ public class SongNowPlayingFragment extends Fragment {
             public void onClick(View v) {
                 if(!mPlayer.isPlaying()){
 
-                    mPlayer.start();
-                    play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pause_black_24dp, 0);
-
                     //Send the time in milliseconds
-                    Date date = new Date();
-
                     if(mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
-                        mWebSocketClient.send(date.getTime() + " - " + mPlayer.getCurrentPosition());
+                        mWebSocketClient.send(System.currentTimeMillis() + " - " + mPlayer.getCurrentPosition());
                     }
+
+                    mPlayer.start();
+                    play.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_pause_black_24dp);
                 } else {
-                    mPlayer.pause();
-                    play.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_play_arrow_black_24dp, 0);
 
                     if(mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
                         mWebSocketClient.send("STOP");
                     }
+
+                    mPlayer.pause();
+                    play.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_play_arrow_black_24dp);
                 }
             }
         });
@@ -164,6 +164,7 @@ public class SongNowPlayingFragment extends Fragment {
     private void connectWebSocket() {
         URI uri;
         try {
+            //URL to a DigitalOcean instance in Singapore, dedicated to Noraoke
             uri = new URI("ws://128.199.134.30:8000/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -182,42 +183,52 @@ public class SongNowPlayingFragment extends Fragment {
             @Override
             public void onMessage(String s) {
                 final String message = s;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //DO SHIT
 
-                        System.out.println(message);
+                //Thread?
+                System.out.println(message);
 
-                        if(message.contains("HELLO") || message.contains("connected")){
-                            return;
-                        }
+                //If it's connection messages we quit
+                if(message.contains("HELLO") || message.contains("connected")){
+                    return;
+                }
 
-                        //If the others pause, we pause too
-                        if(message.contains("STOP")){
-                            mPlayer.pause();
-                            return;
-                        }
+                //If the others pause, we pause too
+                if(message.contains("STOP")){
+                    mPlayer.pause();
+                    return;
+                }
 
-                        //Otherwise we need to seek to their position
+                //Otherwise we need to seek to their position
 
-                        //Get the time in milliseconds
-                        Date date = new Date();
+                //The strings are split into three parts by " - " as token
+                String[] result = message.split("\\s-\\s");
 
-                        String[] result = message.split("\\s-\\s");
+                //The first part is IP, the second the time it was played and third where in the song it was played
+                if(result.length != 3){
+                    return;
+                }
 
-                        if(result.length != 3){
-                            return;
-                        }
+                //Get the time in milliseconds
+                //long timeshift = (System.currentTimeMillis() - Long.parseLong(result[1]));
+                long timeshift = 400;
+                int seekTo = Integer.parseInt(result[2]) + (int) timeshift;
 
-                        int timeshift = (int)(date.getTime() - Long.parseLong(result[1]));
-                        int seekTo = Integer.parseInt(result[2]) + timeshift;
+                System.out.println("timeshift: " + timeshift + " + " + Integer.parseInt(result[2]));
 
-                        if (seekTo <= mPlayer.getDuration()) {
-                            mPlayer.seekTo(seekTo);
+                //The seek must be fitting within the song
+                if (seekTo >= 0 && seekTo < mPlayer.getDuration()) {
+                    mPlayer.seekTo(seekTo);
+
+                    //If it's not playing, start
+                    if(!mPlayer.isPlaying()){
+
+                        //Only play if activity is in foreground
+                        if(MainActivity.isInForeground()) {
+                            mPlayer.start();
                         }
                     }
-                });
+                }
+
             }
 
             @Override

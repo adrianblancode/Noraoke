@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     private final String[] TITLES = {"Now playing", "Songs", "Groups"};
+    private static boolean isInForeground = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,5 +196,24 @@ public class MainActivity extends ActionBarActivity {
 
             return imageView;
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        isInForeground = true;
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        isInForeground  = false;
+    }
+
+    static boolean isInForeground(){
+        return isInForeground;
     }
 }

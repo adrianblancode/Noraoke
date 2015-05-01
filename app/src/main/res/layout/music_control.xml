@@ -28,9 +28,9 @@
             android:id="@+id/music_control_prev"
             android:layout_width="@dimen/music_control_icon_size"
             android:layout_height="@dimen/music_control_icon_size"
-            android:layout_gravity="center_vertical"
-            android:padding="0dp"
-            android:drawableRight="@drawable/ic_skip_previous_black_24dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:drawableBottom="@drawable/ic_skip_previous_black_24dp"
             android:background="@null"
             android:clickable="true"/>
 
@@ -38,10 +38,9 @@
             android:id="@+id/music_control_play"
             android:layout_width="@dimen/music_control_size"
             android:layout_height="@dimen/music_control_size"
-            android:layout_gravity="center"
-            android:paddingRight="11dp"
-            android:paddingBottom="0dp"
-            android:drawableRight="@drawable/ic_play_arrow_black_24dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:drawableBottom="@drawable/ic_play_arrow_black_24dp"
             android:background="@null"
             android:clickable="true"
             />
@@ -53,23 +52,24 @@
             android:layout_gravity="center"
 
             android:padding="0dp"
-            android:drawableRight="@drawable/ic_skip_next_black_24dp"
+            android:layout_marginTop="4dp"
+            android:drawableBottom="@drawable/ic_skip_next_black_24dp"
             android:background="@null"
             android:clickable="true"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:layout_alignParentRight="true"
-        android:paddingRight="5dp">
+        android:layout_width="@dimen/music_control_size"
+        android:layout_height="@dimen/music_control_size"
+        android:gravity="right"
+        android:layout_alignParentRight="true">
 
         <Button
             android:id="@+id/music_control_playlist"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/music_control_size"
+            android:layout_height="@dimen/music_control_size"
             android:layout_gravity="center_vertical"
+            android:paddingRight="9dp"
             android:drawableRight="@drawable/ic_queue_music_black_24dp"
             android:background="@null"
             android:clickable="true"/>
