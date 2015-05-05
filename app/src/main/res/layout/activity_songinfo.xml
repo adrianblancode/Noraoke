@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/TransparentTheme"
+    android:weightSum="5"
+    android:background="@color/background_material_light"
+    tools:context="co.adrianblan.noraoke.SongInfosActivity">
+
+    <ImageView android:id="@+id/now_playing_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/backstreet_cover"
+        android:scaleType="center"
+        android:layout_weight="2"
+        />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/library_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="-30dp"
+            android:src="@mipmap/ic_playlist_add_white_36dp"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccentDark"
+            />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:layout_marginTop="-20dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="@color/primary_text_default_material_light"
+            android:text="I want it that way"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="8dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/primary_text_default_material_light"
+            android:text="Backstreet Boys"
+            android:layout_marginLeft="8dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/secondary_text_default_material_light"
+            android:text="@string/songinfo"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+</LinearLayout>
+
+<android.support.v7.widget.Toolbar
+xmlns:android="http://schemas.android.com/apk/res/android"
+
+android:id="@+id/songinfo_toolbar"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:theme="@style/ActionBarStyle.Transparent"
+android:elevation="4dp"/>
+</RelativeLayout>

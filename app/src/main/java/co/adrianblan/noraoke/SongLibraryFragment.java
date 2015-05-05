@@ -16,12 +16,14 @@ package co.adrianblan.noraoke;
  * limitations under the License.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -46,6 +48,19 @@ public void onCreate(Bundle savedInstanceState) {
 
         ListView listView = (ListView) rootView.findViewById(R.id.library_song_list);
         listView.setAdapter(new SongAdapter(getActivity()));
+
+        //We add a listener to each item in the list
+        //When pressed, opens info page to backstreet boys
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(getActivity(), SongInfoActivity.class);
+                getActivity().startActivity(intent);
+
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.library_fab);
         fab.attachToListView(listView);

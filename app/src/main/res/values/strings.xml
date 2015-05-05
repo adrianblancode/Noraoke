@@ -2,4 +2,10 @@
     <string name="app_name">Noraoke</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="songinfo">
+        "''I Want It That Way'' is a song by American boy band Backstreet Boys, released as the lead single from their third studio album, Millennium (1999). It was written by Max Martin and Andreas Carlsson, while Martin and Kristian Lundin produced it. The pop ballad talks about a relationship that’s troubled by matters of emotional or physical distance.
+
+Critically, the song was met with positive reception, with most critics commending its catchiness and loveliness, also calling it the pop ballad of the year.
+    </string>
+    <string name="title_activity_song_infos">SongInfosActivity</string>
 </resources>

@@ -210,7 +210,7 @@ public class SongNowPlayingFragment extends Fragment {
 
                 //Get the time in milliseconds
                 //long timeshift = (System.currentTimeMillis() - Long.parseLong(result[1]));
-                long timeshift = 400;
+                long timeshift = 250;
                 int seekTo = Integer.parseInt(result[2]) + (int) timeshift;
 
                 System.out.println("timeshift: " + timeshift + " + " + Integer.parseInt(result[2]));

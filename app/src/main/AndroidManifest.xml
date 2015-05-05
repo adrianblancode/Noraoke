@@ -15,10 +15,20 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-    </application>
+        <activity
+            android:name="co.adrianblan.noraoke.SongInfoActivity"
+            android:label="I Want It That Way"
+            android:theme="@style/TransparentTheme"
+            android:screenOrientation="portrait"
 
+            android:parentActivityName="co.adrianblan.noraoke.MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.adrianblan.noraoke.MainActivity" />
+        </activity>
+
+    </application>
 </manifest>
