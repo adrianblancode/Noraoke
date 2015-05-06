@@ -8,4 +8,5 @@
 Critically, the song was met with positive reception, with most critics commending its catchiness and loveliness, also calling it the pop ballad of the year.
     </string>
     <string name="title_activity_song_infos">SongInfosActivity</string>
+    <string name="title_activity_song_playing">SongPlayingActivity</string>
 </resources>

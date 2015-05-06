@@ -10,7 +10,12 @@
         android:layout_height="fill_parent"
         android:layout_marginBottom="@dimen/music_control_size">
 
-    <include android:id="@+id/cover" layout="@layout/list_header"/>
+        <ImageView android:id="@+id/now_playing_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/nowplaying"
+            android:scaleType="fitXY"
+            />
 
     </LinearLayout>
 

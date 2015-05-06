@@ -1,6 +1,7 @@
 package co.adrianblan.noraoke;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,15 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
+
 /**
  * Created by Adrian on 2015-05-05.
  */
-public class SongInfoActivity extends ActionBarActivity {
+public class SongPlayingActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_songinfo);
+        setContentView(R.layout.activity_song_playing);
 
         if (savedInstanceState == null) {
 
@@ -27,13 +30,20 @@ public class SongInfoActivity extends ActionBarActivity {
             */
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.songinfo_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.songplaying_toolbar);
         setSupportActionBar(toolbar);
-
-        //toolbar.getBackground().setAlpha(100);
 
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_18dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.now_playing_large_fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -44,7 +54,7 @@ public class SongInfoActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_song_infos, menu);
+        getMenuInflater().inflate(R.menu.menu_song_playing, menu);
         return true;
     }
 

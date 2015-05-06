@@ -16,6 +16,7 @@ package co.adrianblan.noraoke;
  * limitations under the License.
  */
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -74,6 +75,14 @@ public class SongNowPlayingFragment extends Fragment {
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.now_playing_fab);
         fab.attachToListView(listView);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SongPlayingActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         //Fulhaxx in order to preserve media player when fragment is destroyed
         if(mPlayer == null) {
