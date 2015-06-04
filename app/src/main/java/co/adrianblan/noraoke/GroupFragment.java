@@ -16,14 +16,17 @@ package co.adrianblan.noraoke;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 public class GroupFragment extends Fragment {
@@ -44,8 +47,20 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_group,container,false);
 
-        //FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.library_fab);
-        //fab.attachToListView(listView);
+        final Context context = this.getActivity();
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.library_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Create group")
+                        .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+                        .setNegativeButton("Cancel", null)
+                        .setPositiveButton("Create", null)
+                        .show();
+            }
+        });
 
         ViewCompat.setElevation(rootView, 50);
         return rootView;

@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private final String[] TITLES = {"Now playing", "Songs", "Groups"};
     private static boolean isInForeground = false;
@@ -36,14 +37,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
 
-            /*
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
-                    .commit();
-            */
-        }
+        //if (savedInstanceState == null) {}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,17 +116,6 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_song_library, container, false);
 
-            /*
-            final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-            Fragment parentFragment = getParentFragment();
-            ViewGroup viewGroup = (ViewGroup) parentFragment.getView();
-            if (viewGroup != null) {
-                scrollView.setTouchInterceptionViewGroup((ViewGroup) viewGroup.findViewById(R.id.container));
-                if (parentFragment instanceof ObservableScrollViewCallbacks) {
-                    scrollView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentFragment);
-                }
-            }*/
-
             return view;
         }
     }
@@ -185,14 +169,6 @@ public class MainActivity extends ActionBarActivity {
 
             ImageView tabImage = (ImageView) imageView.findViewById(R.id.tabImage);
             tabImage.setImageResource(tab_icon.get(position));
-
-            /*
-            Picasso.with(mContext)
-                    .load(ICONS[position])
-                    .fit()
-                    .centerInside()
-                    .into(tabImage);
-            */
 
             return imageView;
         }

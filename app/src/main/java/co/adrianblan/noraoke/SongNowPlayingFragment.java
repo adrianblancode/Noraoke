@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -156,8 +158,12 @@ public class SongNowPlayingFragment extends Fragment {
 
                 if(listView.getVisibility() != View.VISIBLE) {
                     listView.setVisibility(View.VISIBLE);
+                    Animation slideIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_in);
+                    listView.startAnimation(slideIn);
                     fab.hide();
                 } else {
+                    Animation slideOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_out);
+                    listView.startAnimation(slideOut);
                     listView.setVisibility(View.GONE);
                     fab.show();
                 }

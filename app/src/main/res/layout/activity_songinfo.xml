@@ -27,7 +27,7 @@
             />
 
             <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/library_fab"
+                android:id="@+id/songinfo_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"

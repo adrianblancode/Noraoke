@@ -3,15 +3,19 @@ package co.adrianblan.noraoke;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+
 /**
  * Created by Adrian on 2015-05-05.
  */
-public class SongInfoActivity extends ActionBarActivity {
+public class SongInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,22 @@ public class SongInfoActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.songinfo_fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Song added to playlist", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // NOP
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorAccent))
+                        .show();
             }
         });
     }

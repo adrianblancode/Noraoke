@@ -16,10 +16,12 @@ package co.adrianblan.noraoke;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +64,21 @@ public void onCreate(Bundle savedInstanceState) {
             }
         });
 
+        final Context context = this.getActivity();
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.library_fab);
         fab.attachToListView(listView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Sort songs")
+                        .setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+                        .setNegativeButton("Cancel", null)
+                        .setPositiveButton("Sort", null)
+                        .show();
+            }
+        });
 
         ViewCompat.setElevation(rootView, 50);
         return rootView;
