@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] TITLES = {"Now playing", "Songs", "Groups"};
+    private final String[] TITLES = {"Now playing", "Library", "Groups"};
     private static boolean isInForeground = false;
 
     @Override

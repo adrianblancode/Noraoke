@@ -154,23 +154,23 @@ public class SongNowPlayingFragment extends Fragment {
         playlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListView listView = (ListView) rootView.findViewById(R.id.now_playing_song_list);
+                LinearLayout playlist = (LinearLayout) rootView.findViewById(R.id.now_playing_playlist);
 
-                if(listView.getVisibility() != View.VISIBLE) {
-                    listView.setVisibility(View.VISIBLE);
+                if(playlist.getVisibility() != View.VISIBLE) {
+                    playlist.setVisibility(View.VISIBLE);
                     Animation slideIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_in);
-                    listView.startAnimation(slideIn);
+                    playlist.startAnimation(slideIn);
                     fab.hide();
                 } else {
                     Animation slideOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_out);
-                    listView.startAnimation(slideOut);
-                    listView.setVisibility(View.GONE);
+                    playlist.startAnimation(slideOut);
+                    playlist.setVisibility(View.GONE);
                     fab.show();
                 }
             }
         });
 
-        rootView.findViewById(R.id.now_playing_song_list).setVisibility(View.GONE);
+        rootView.findViewById(R.id.now_playing_playlist).setVisibility(View.GONE);
 
         ViewCompat.setElevation(rootView.findViewById(R.id.music_control), 50);
         return rootView;

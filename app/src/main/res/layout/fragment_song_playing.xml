@@ -19,20 +19,33 @@
 
     </LinearLayout>
 
-    <ListView android:id="@+id/now_playing_song_list"
+    <LinearLayout
+        android:id="@+id/now_playing_playlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="top"
-        android:paddingBottom="@dimen/music_control_size"
-        android:background="@color/background_material_light"
-        android:visibility="gone"
-    />
+        android:orientation="vertical"
+        android:elevation="0dp"
+        android:paddingBottom="@dimen/music_control_size">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-        <include android:id="@+id/music_control" layout="@layout/music_control"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Playlist"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/primary_text_default_material_light"
+            android:background="@color/white"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="6dp"
+            android:elevation="2dp"/>
+
+        <ListView android:id="@+id/now_playing_song_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:paddingBottom="@dimen/music_control_size"
+            android:background="@color/background_material_light"
+        />
     </LinearLayout>
 
     <com.melnykov.fab.FloatingActionButton
@@ -46,5 +59,13 @@
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentDark"
         />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="2dp">
+        <include android:id="@+id/music_control" layout="@layout/music_control"/>
+    </LinearLayout>
 
 </FrameLayout>
