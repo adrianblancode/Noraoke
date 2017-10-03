@@ -6,5 +6,3 @@ This project was developed for the course Human-Computer Interaction at Kaist, S
 
 ## Images
 ![Noraoke image](http://i.imgur.com/4uVeSPW.jpg)
-
-[Download Noraoke](http://adrianblan.co/content/Noraoke.apk)
