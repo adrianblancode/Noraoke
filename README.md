@@ -6,3 +6,5 @@ This project was developed for the course Human-Computer Interaction at Kaist, S
 
 ## Images
 ![Noraoke image](http://i.imgur.com/4uVeSPW.jpg)
+
+[Noraoke APK](https://github.com/adrianblp/Noraoke/blob/master/app/NoraokePrototype.apk)
